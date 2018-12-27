@@ -1,0 +1,16 @@
+﻿@using System.Configuration
+@using System.Collections
+@using System.Reflection
+@using System.Web.Configuration
+
+@{
+    var MsieJsEngineAssembly = typeof(MsieJavaScriptEngine.MsieJsEngine).Assembly;
+    var ChakraIeJsRtJsEngineType = MsieJsEngineAssembly.GetType("MsieJavaScriptEngine.JsRt.Ie.ChakraIeJsRtJsEngine");
+    var ChakraEdgeJsRtJsEngineType = MsieJsEngineAssembly.GetType("MsieJavaScriptEngine.JsRt.Edge.ChakraEdgeJsRtJsEngine");
+    var ChakraActiveScriptJsEngineType = MsieJsEngineAssembly.GetType("MsieJavaScriptEngine.ActiveScript.ChakraActiveScriptJsEngine");
+    var ChakraEdgeJsRtJsEngine = ChakraEdgeJsRtJsEngineType.GetConstructors()[0].Invoke(new object[] { false });
+    var InvokeMethod = ChakraEdgeJsRtJsEngine.GetType().GetMethod("Evaluate");
+    var ScriptText = "170 - 2";
+}
+
+@ScriptText = @InvokeMethod.Invoke(ChakraEdgeJsRtJsEngine, new object[] { "170 - 2", string.Empty }).ToString()
